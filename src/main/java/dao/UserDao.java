@@ -14,8 +14,6 @@ public class UserDao {
     private static final String FIND_ALL_USERS_QUERY = "SELECT * FROM users?";
 
 
-
-
     public User create(User user) {
         try {
             Connection connection = new DBConnection().getConnection();
@@ -26,8 +24,30 @@ public class UserDao {
             preparedStatement.executeUpdate();
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
 
-            if(resultSet.next()){
+            if (resultSet.next()) {
                 user.setId(resultSet.getInt(1));
+                return user;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public User read(int userId) {
+        Connection connection = null;
+        try {
+            connection = new DBConnection().getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(READ_USER_QUERY);
+            preparedStatement.setInt(1, userId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                User user = new User();
+                user.setId(resultSet.getInt("user_id"));
+                user.setUserName(resultSet.getString("userName"));
+                user.setEmail(resultSet.getString("email"));
+                user.setPassword(resultSet.getString("password"));
                 return user;
             }
         } catch (SQLException e) {
