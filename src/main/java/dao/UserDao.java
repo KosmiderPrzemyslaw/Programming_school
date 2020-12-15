@@ -8,9 +8,9 @@ import java.sql.*;
 
 public class UserDao {
     private static final String CREATE_USER_QUERY = "INSERT INTO users(username, email, password) VALUES (?,?,?)";
-    private static final String READ_USER_QUERY = "SELECT * FROM users WHERE id = ?";
-    private static final String UPDATE_USER_QUERY = "UPDATE users SET username = ?, emial = ?, password = ? WHERE id = ?";
-    private static final String DELETE_USER_QUERY = "DELETE FROM users WHERE id = ?";
+    private static final String READ_USER_QUERY = "SELECT * FROM users WHERE user_id = ?";
+    private static final String UPDATE_USER_QUERY = "UPDATE users SET username = ?, email = ?, password = ? WHERE user_id = ?";
+    private static final String DELETE_USER_QUERY = "DELETE FROM users WHERE user_id = ?";
     private static final String FIND_ALL_USERS_QUERY = "SELECT * FROM users?";
 
 
@@ -54,5 +54,31 @@ public class UserDao {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public void update(User user) {
+        try {
+            Connection connection = new DBConnection().getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_USER_QUERY);
+            preparedStatement.setString(1, user.getUserName());
+            preparedStatement.setString(2, user.getEmail());
+            preparedStatement.setString(3, user.getPassword());
+            preparedStatement.setInt(4, user.getId());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void delete(int userId) {
+        try {
+            Connection connection = new DBConnection().getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement
+                    (DELETE_USER_QUERY);
+            preparedStatement.setInt(1, userId);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
