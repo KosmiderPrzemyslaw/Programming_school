@@ -4,6 +4,8 @@ import DBConnection.DBConnection;
 import models.User;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class UserDao {
@@ -80,5 +82,27 @@ public class UserDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public List<User> findAll(){
+        try {
+            Connection connection = new DBConnection().getConnection();
+            List<User> userList = new ArrayList<>();
+            PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL_USERS_QUERY);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                User user = new User();
+                user.setId(resultSet.getInt("id"));
+                user.setUserName(resultSet.getString("userName"));
+                user.setEmail(resultSet.getString("email"));
+                user.setPassword(resultSet.getString("password"));
+                userList.add(user);
+                return userList;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
