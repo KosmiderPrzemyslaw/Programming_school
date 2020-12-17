@@ -13,7 +13,7 @@ public class UserDao {
     private static final String READ_USER_QUERY = "SELECT * FROM users WHERE user_id = ?";
     private static final String UPDATE_USER_QUERY = "UPDATE users SET username = ?, email = ?, password = ? WHERE user_id = ?";
     private static final String DELETE_USER_QUERY = "DELETE FROM users WHERE user_id = ?";
-    private static final String FIND_ALL_USERS_QUERY = "SELECT * FROM users?";
+    private static final String FIND_ALL_USERS_QUERY = "SELECT * FROM users";
 
 
     public User create(User user) {
@@ -84,7 +84,7 @@ public class UserDao {
         }
     }
 
-    public List<User> findAll(){
+    public List<User> findAll() {
         try {
             Connection connection = new DBConnection().getConnection();
             List<User> userList = new ArrayList<>();
@@ -93,13 +93,14 @@ public class UserDao {
 
             while (resultSet.next()) {
                 User user = new User();
-                user.setId(resultSet.getInt("id"));
+                user.setId(resultSet.getInt("user_id"));
                 user.setUserName(resultSet.getString("userName"));
                 user.setEmail(resultSet.getString("email"));
                 user.setPassword(resultSet.getString("password"));
                 userList.add(user);
-                return userList;
             }
+            return userList;
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
