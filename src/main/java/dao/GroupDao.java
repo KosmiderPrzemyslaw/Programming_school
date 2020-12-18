@@ -4,6 +4,8 @@ import DBConnection.DBConnection;
 import models.Group;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GroupDao {
 
@@ -64,7 +66,7 @@ public class GroupDao {
         }
     }
 
-    public void delete(int groupId){
+    public void delete(int groupId) {
         try {
             Connection connection = new DBConnection().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("DELETE Programming_school.user_group FROM Programming_school.user_group WHERE id = ?");
@@ -73,5 +75,25 @@ public class GroupDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public List<Group> findAll() {
+        try {
+            List<Group> groupList = new ArrayList<>();
+            Connection connection = new DBConnection().getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement
+                    ("SELECT * FROM Programming_school.user_group");
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Group group = new Group();
+                group.setId(resultSet.getInt("id"));
+                group.setName(resultSet.getString("name"));
+                groupList.add(group);
+            }
+            return groupList;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

@@ -47,5 +47,11 @@ public class Main {
         groupDao.update(group);
 
         groupDao.delete(6);
+        List<Group> groupList = groupDao.findAll();
+
+        for (Group groupFromList: groupList
+             ) {
+            System.out.println(groupFromList);
+        }
     }
 }
