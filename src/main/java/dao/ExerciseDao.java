@@ -7,6 +7,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ExerciseDao {
     public Exercise create(Exercise exercise) {
@@ -66,14 +68,35 @@ public class ExerciseDao {
         }
     }
 
-    public void delete(int exerciseId){
+    public void delete(int exerciseId) {
         try {
             Connection connection = new DBConnection().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM Programming_school.exercise WHERE id = ?");
-            preparedStatement.setInt(1,exerciseId);
+            preparedStatement.setInt(1, exerciseId);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public List<Exercise> findAll() {
+        try {
+            Connection connection = new DBConnection().getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement
+                    ("SELECT * FROM Programming_school.exercise");
+            ResultSet resultSet = preparedStatement.executeQuery();
+            List<Exercise> exercises = new ArrayList<>();
+            while (resultSet.next()) {
+                Exercise exercise = new Exercise();
+                exercise.setId(resultSet.getInt("id"));
+                exercise.setTitile(resultSet.getString("title"));
+                exercise.setDescription(resultSet.getString("description"));
+                exercises.add(exercise);
+            }
+            return exercises;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

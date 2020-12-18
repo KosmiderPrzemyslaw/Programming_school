@@ -70,5 +70,12 @@ public class Main {
         exerciseDao.update(exercise);
 
         exerciseDao.delete(2);
+
+        List<Exercise> all = exerciseDao.findAll();
+
+        for (Exercise e: all
+             ) {
+            System.out.println(e);
+        }
     }
 }
