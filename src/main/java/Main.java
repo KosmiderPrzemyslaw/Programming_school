@@ -60,5 +60,7 @@ public class Main {
         ExerciseDao exerciseDao = new ExerciseDao();
         exerciseDao.create(exercise);
 
+
+        System.out.println(exerciseDao.read(2));
     }
 }
