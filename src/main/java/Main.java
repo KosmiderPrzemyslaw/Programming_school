@@ -1,4 +1,6 @@
+import dao.GroupDao;
 import dao.UserDao;
+import models.Group;
 import models.User;
 
 import java.util.List;
@@ -10,8 +12,8 @@ public class Main {
         UserDao userDao = new UserDao();
         //userDao.create(user);
 
-   //`     User user1 = new User("Maciek", "mac", "haslo");
-   //     userDao.create(user1);
+        //`     User user1 = new User("Maciek", "mac", "haslo");
+        //     userDao.create(user1);
 
 //        UserDao userDao = new UserDao();
 //
@@ -28,8 +30,15 @@ public class Main {
 
         List<User> allUsers = userDao.findAll();
         for (User u : allUsers
-             ) {
+        ) {
             System.out.println(u);
         }
+
+        GroupDao groupDao = new GroupDao();
+
+        Group group = new Group("bratki");
+        groupDao.create(group);
+
+        System.out.println(groupDao.read(2));
     }
 }

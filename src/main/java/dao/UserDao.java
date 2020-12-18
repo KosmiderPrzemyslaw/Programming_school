@@ -9,9 +9,9 @@ import java.util.List;
 
 
 public class UserDao {
-    private static final String CREATE_USER_QUERY = "INSERT INTO users(username, email, password) VALUES (?,?,?)";
+    private static final String CREATE_USER_QUERY = "INSERT INTO users(username, email, password, user_group) VALUES (?,?,?,?)";
     private static final String READ_USER_QUERY = "SELECT * FROM users WHERE user_id = ?";
-    private static final String UPDATE_USER_QUERY = "UPDATE users SET username = ?, email = ?, password = ? WHERE user_id = ?";
+    private static final String UPDATE_USER_QUERY = "UPDATE users SET username = ?, email = ?, password = ?, user_group = ? WHERE user_id = ?";
     private static final String DELETE_USER_QUERY = "DELETE FROM users WHERE user_id = ?";
     private static final String FIND_ALL_USERS_QUERY = "SELECT * FROM users";
 
@@ -23,6 +23,7 @@ public class UserDao {
             preparedStatement.setString(1, user.getUserName());
             preparedStatement.setString(2, user.getEmail());
             preparedStatement.setString(3, user.getPassword());
+            preparedStatement.setInt(4, user.getGruopId());
             preparedStatement.executeUpdate();
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
 
@@ -65,7 +66,8 @@ public class UserDao {
             preparedStatement.setString(1, user.getUserName());
             preparedStatement.setString(2, user.getEmail());
             preparedStatement.setString(3, user.getPassword());
-            preparedStatement.setInt(4, user.getId());
+            preparedStatement.setInt(4, user.getGruopId());
+            preparedStatement.setInt(5, user.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -97,6 +99,7 @@ public class UserDao {
                 user.setUserName(resultSet.getString("userName"));
                 user.setEmail(resultSet.getString("email"));
                 user.setPassword(resultSet.getString("password"));
+                user.setGruopId(resultSet.getInt("user_group"));
                 userList.add(user);
             }
             return userList;

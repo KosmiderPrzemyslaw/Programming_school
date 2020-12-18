@@ -7,11 +7,22 @@ public class User {
     private String userName;
     private String email;
     private String password;
+    private int groupId;
 
-    public User(String userName, String email, String password) {
+    public User(int id, String userName, String email, String password, int gruopId) {
+        this.id = id;
         this.userName = userName;
         this.email = email;
-        this.hashPassword(password);
+        this.password = password;
+        this.groupId = gruopId;
+    }
+
+    public int getGruopId() {
+        return groupId;
+    }
+
+    public void setGruopId(int gruopId) {
+        this.groupId = gruopId;
     }
 
     private void hashPassword(String password) {
@@ -61,6 +72,7 @@ public class User {
                 ", userName='" + userName + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
+                ", groupId=" + groupId +
                 '}';
     }
 }

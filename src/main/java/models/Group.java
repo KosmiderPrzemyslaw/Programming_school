@@ -2,13 +2,14 @@ package models;
 
 public class Group {
     private int id;
-    private int userId;
     private String name;
 
-    public Group(int id, int userId, String name) {
-        this.id = id;
-        this.userId = userId;
+    public Group(String name) {
         this.name = name;
+    }
+
+    public Group() {
+
     }
 
     public int getId() {
@@ -19,19 +20,19 @@ public class Group {
         this.id = id;
     }
 
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "Group{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 }
