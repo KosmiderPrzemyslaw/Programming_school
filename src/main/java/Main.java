@@ -1,10 +1,17 @@
 import dao.ExerciseDao;
 import dao.GroupDao;
+import dao.SolutionDao;
 import dao.UserDao;
 import models.Exercise;
 import models.Group;
+import models.Solution;
 import models.User;
 
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Month;
+import java.util.Date;
 import java.util.List;
 
 public class Main {
@@ -77,5 +84,32 @@ public class Main {
              ) {
             System.out.println(e);
         }
+
+        Date date = new Date();
+        Timestamp timestamp = new Timestamp(date.getTime());
+
+        LocalDateTime dateTime = LocalDateTime.now();
+        System.out.println(dateTime);
+        Solution solution = new Solution();
+        solution.setCreated(timestamp);
+        solution.setUpdated(timestamp);
+        solution.setDescription("desciption solution");
+        solution.setExerciseId(3);
+        solution.setUserId(3);
+
+        SolutionDao solutionDao = new SolutionDao();
+        solutionDao.create(solution);
+
+        System.out.println(solutionDao.read(4));
+
+
+        solution.setId(4);
+        solution.setUserId(10);
+        solution.setExerciseId(16);
+        solution.setCreated(Timestamp.valueOf(LocalDateTime.now()));
+        solution.setUpdated(Timestamp.valueOf(LocalDateTime.now()));
+        solution.setDescription("opis jakis tam interia");
+
+        solutionDao.update(solution);
     }
 }

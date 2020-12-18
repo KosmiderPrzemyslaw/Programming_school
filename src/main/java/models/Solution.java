@@ -1,21 +1,27 @@
 package models;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 public class Solution {
     private int id;
     private int userId;
     private int exerciseId;
-    private Date created;
-    private Date updated;
+    private Timestamp created;
+    private Timestamp updated;
     private String description;
 
-    public Solution(int userId, int exerciseId, Date created, Date updated, String description) {
+
+    public Solution(int id, int userId, int exerciseId, Timestamp created, Timestamp updated, String description) {
+        this.id = id;
         this.userId = userId;
         this.exerciseId = exerciseId;
         this.created = created;
         this.updated = updated;
         this.description = description;
+    }
+
+    public Solution() {
+
     }
 
     public int getId() {
@@ -42,19 +48,20 @@ public class Solution {
         this.exerciseId = exerciseId;
     }
 
-    public Date getCreated() {
+
+    public Timestamp getCreated() {
         return created;
     }
 
-    public void setCreated(Date created) {
+    public void setCreated(Timestamp created) {
         this.created = created;
     }
 
-    public Date getUpdated() {
+    public Timestamp getUpdated() {
         return updated;
     }
 
-    public void setUpdated(Date updated) {
+    public void setUpdated(Timestamp updated) {
         this.updated = updated;
     }
 
@@ -64,5 +71,17 @@ public class Solution {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Override
+    public String toString() {
+        return "Solution{" +
+                "id=" + id +
+                ", userId=" + userId +
+                ", exerciseId=" + exerciseId +
+                ", created=" + created +
+                ", updated=" + updated +
+                ", description='" + description + '\'' +
+                '}';
     }
 }
