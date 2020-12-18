@@ -38,7 +38,7 @@ public class ExerciseDao {
             preparedStatement.setInt(1, exerciseId);
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            while (resultSet.next()) {
+            if (resultSet.next()) {
                 Exercise exercise = new Exercise();
                 exercise.setId(resultSet.getInt("id"));
                 exercise.setDescription(resultSet.getString("description"));
@@ -49,5 +49,20 @@ public class ExerciseDao {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public void update(Exercise exercise) {
+        try {
+            Connection connection = new DBConnection().getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement
+                    ("UPDATE Programming_school.exercise SET title = ?, description = ? WHERE id = ?");
+            preparedStatement.setString(1, exercise.getTitile());
+            preparedStatement.setString(2, exercise.getDescription());
+            preparedStatement.setInt(3, exercise.getId());
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

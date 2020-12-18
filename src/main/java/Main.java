@@ -61,6 +61,13 @@ public class Main {
         exerciseDao.create(exercise);
 
 
+
         System.out.println(exerciseDao.read(2));
+
+        exercise.setTitile("some different titile");
+        exercise.setDescription("some different desc");
+        exercise.setId(2);
+        exerciseDao.update(exercise);
+
     }
 }
