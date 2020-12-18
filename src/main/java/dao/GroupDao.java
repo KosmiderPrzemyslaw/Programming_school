@@ -63,4 +63,15 @@ public class GroupDao {
             e.printStackTrace();
         }
     }
+
+    public void delete(int groupId){
+        try {
+            Connection connection = new DBConnection().getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement("DELETE Programming_school.user_group FROM Programming_school.user_group WHERE id = ?");
+            preparedStatement.setInt(1, groupId);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

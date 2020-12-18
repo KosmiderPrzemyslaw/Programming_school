@@ -45,5 +45,7 @@ public class Main {
 
         group.setName("leonki");
         groupDao.update(group);
+
+        groupDao.delete(6);
     }
 }
