@@ -69,5 +69,6 @@ public class Main {
         exercise.setId(2);
         exerciseDao.update(exercise);
 
+        exerciseDao.delete(2);
     }
 }

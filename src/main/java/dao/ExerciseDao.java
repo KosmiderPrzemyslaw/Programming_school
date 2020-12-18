@@ -65,4 +65,15 @@ public class ExerciseDao {
             e.printStackTrace();
         }
     }
+
+    public void delete(int exerciseId){
+        try {
+            Connection connection = new DBConnection().getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM Programming_school.exercise WHERE id = ?");
+            preparedStatement.setInt(1,exerciseId);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
