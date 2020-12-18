@@ -71,4 +71,17 @@ public class SolutionDao {
             e.printStackTrace();
         }
     }
+
+    public void delete(int solutionId) {
+        try {
+            Connection connection = new DBConnection().getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement
+                    ("DELETE Programming_school.solution FROM Programming_school.solution where id = ?");
+           preparedStatement.setInt(1, solutionId);
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

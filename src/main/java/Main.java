@@ -111,5 +111,6 @@ public class Main {
         solution.setDescription("opis jakis tam interia");
 
         solutionDao.update(solution);
+        solutionDao.delete(6);
     }
 }
