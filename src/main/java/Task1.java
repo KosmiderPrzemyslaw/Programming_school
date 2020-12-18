@@ -10,6 +10,54 @@ import java.util.Scanner;
 public class Task1 {
     public static void main(String[] args) {
         printAllUsers();
+        String choice = chooseOperation();
+
+        switch (choice.toLowerCase()) {
+            case "add": {
+                addUserToDb();
+            }
+
+            case "edit": {
+                User user = new User();
+                UserDao userDao = new UserDao();
+                GroupDao groupDao = new GroupDao();
+
+                System.out.println("Type user id: ");
+                Scanner scanner = new Scanner(System.in);
+                while (!scanner.hasNextInt()) {
+                    System.out.println("Incorrect value");
+                    scanner.next();
+                }
+
+                int idFromKeyboard = scanner.nextInt();
+                User userById = userDao.findUserById(idFromKeyboard);
+
+                System.out.println("Type new user email: ");
+                Scanner scanner1 = new Scanner(System.in);
+                String mail = scanner1.next();
+                checkEmailInDb(userById, userDao, scanner1, mail);
+                userDao.update(userById);
+
+                System.out.println("Type new password: ");
+                Scanner scanner2 = new Scanner(System.in);
+                userById.setPassword(scanner2.next());
+                userDao.update(userById);
+
+                System.out.println("Type new username: ");
+                Scanner scanner3 = new Scanner(System.in);
+                userById.setUserName(scanner3.next());
+                userDao.update(userById);
+
+                System.out.println("Type new user group id: ");
+                Scanner scanner4 = new Scanner(System.in);
+                checkIdGroupInputFromKeyboard(userById, groupDao, scanner4);
+                userDao.update(userById);
+
+            }
+        }
+    }
+
+    private static String chooseOperation() {
         System.out.println("Choose one of the option: ");
         System.out.println("add");
         System.out.println("edit");
@@ -19,12 +67,7 @@ public class Task1 {
         String choice;
         Scanner scanner = new Scanner(System.in);
         choice = scanner.next();
-
-        switch (choice.toLowerCase()) {
-            case "add": {
-                addUserToDb();
-            }
-        }
+        return choice;
     }
 
     private static void addUserToDb() {
@@ -48,13 +91,13 @@ public class Task1 {
 
         System.out.println("Type group ID: ");
         Scanner userGroup = new Scanner(System.in);
-        checkIdInputFromKeyboard(user, groupDao, userGroup);
+        checkIdGroupInputFromKeyboard(user, groupDao, userGroup);
 
 
         userDao.create(user);
     }
 
-    private static void checkIdInputFromKeyboard(User user, GroupDao groupDao, Scanner userGroup) {
+    private static void checkIdGroupInputFromKeyboard(User user, GroupDao groupDao, Scanner userGroup) {
         while (!userGroup.hasNextInt()) {
             System.out.println("Incorrect value!");
             userGroup.next();
