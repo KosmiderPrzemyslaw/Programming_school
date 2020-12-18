@@ -18,43 +18,73 @@ public class Task1 {
             }
 
             case "edit": {
-                User user = new User();
-                UserDao userDao = new UserDao();
-                GroupDao groupDao = new GroupDao();
-
-                System.out.println("Type user id: ");
-                Scanner scanner = new Scanner(System.in);
-                while (!scanner.hasNextInt()) {
-                    System.out.println("Incorrect value");
-                    scanner.next();
-                }
-
-                int idFromKeyboard = scanner.nextInt();
-                User userById = userDao.findUserById(idFromKeyboard);
-
-                System.out.println("Type new user email: ");
-                Scanner scanner1 = new Scanner(System.in);
-                String mail = scanner1.next();
-                checkEmailInDb(userById, userDao, scanner1, mail);
-                userDao.update(userById);
-
-                System.out.println("Type new password: ");
-                Scanner scanner2 = new Scanner(System.in);
-                userById.setPassword(scanner2.next());
-                userDao.update(userById);
-
-                System.out.println("Type new username: ");
-                Scanner scanner3 = new Scanner(System.in);
-                userById.setUserName(scanner3.next());
-                userDao.update(userById);
-
-                System.out.println("Type new user group id: ");
-                Scanner scanner4 = new Scanner(System.in);
-                checkIdGroupInputFromKeyboard(userById, groupDao, scanner4);
-                userDao.update(userById);
+                editUser();
 
             }
+
+            case "delete": {
+                deleteUserById();
+            }
+
+            case "quit": {
+                System.out.println("bye!");
+            }
+            return;
         }
+    }
+
+    private static void deleteUserById() {
+        UserDao userDao = new UserDao();
+        Scanner scanner = getUserIdToRemove("Type user id to remove: ");
+        int idToRemove = scanner.nextInt();
+        User userById = userDao.findUserById(idToRemove);
+        while (userById == null) {
+            System.out.println("Incorrect user id");
+            getUserIdToRemove("Type user id once again: ");
+
+        }
+        userDao.delete(idToRemove);
+    }
+
+    private static Scanner getUserIdToRemove(String s) {
+        System.out.println(s);
+        Scanner scanner = new Scanner(System.in);
+        while (!scanner.hasNextInt()) {
+            System.out.println("Incorrect value");
+            scanner.next();
+        }
+        return scanner;
+    }
+
+    private static void editUser() {
+        UserDao userDao = new UserDao();
+        GroupDao groupDao = new GroupDao();
+
+        Scanner scanner = getUserIdToRemove("Type user id: ");
+
+        int idFromKeyboard = scanner.nextInt();
+        User userById = userDao.findUserById(idFromKeyboard);
+
+        System.out.println("Type new user email: ");
+        Scanner scanner1 = new Scanner(System.in);
+        String mail = scanner1.next();
+        checkEmailInDb(userById, userDao, scanner1, mail);
+        userDao.update(userById);
+
+        System.out.println("Type new password: ");
+        Scanner scanner2 = new Scanner(System.in);
+        userById.setPassword(scanner2.next());
+        userDao.update(userById);
+
+        System.out.println("Type new username: ");
+        Scanner scanner3 = new Scanner(System.in);
+        userById.setUserName(scanner3.next());
+        userDao.update(userById);
+
+        System.out.println("Type new user group id: ");
+        Scanner scanner4 = new Scanner(System.in);
+        checkIdGroupInputFromKeyboard(userById, groupDao, scanner4);
+        userDao.update(userById);
     }
 
     private static String chooseOperation() {
