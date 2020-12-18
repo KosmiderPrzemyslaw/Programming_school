@@ -1,5 +1,7 @@
+import dao.ExerciseDao;
 import dao.GroupDao;
 import dao.UserDao;
+import models.Exercise;
 import models.Group;
 import models.User;
 
@@ -53,5 +55,10 @@ public class Main {
              ) {
             System.out.println(groupFromList);
         }
+
+        Exercise exercise = new Exercise("some title", "some description");
+        ExerciseDao exerciseDao = new ExerciseDao();
+        exerciseDao.create(exercise);
+
     }
 }

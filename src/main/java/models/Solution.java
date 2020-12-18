@@ -10,8 +10,7 @@ public class Solution {
     private Date updated;
     private String description;
 
-    public Solution(int id, int userId, int exerciseId, Date created, Date updated, String description) {
-        this.id = id;
+    public Solution(int userId, int exerciseId, Date created, Date updated, String description) {
         this.userId = userId;
         this.exerciseId = exerciseId;
         this.created = created;

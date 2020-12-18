@@ -5,10 +5,13 @@ public class Exercise {
     private String titile;
     private String description;
 
-    public Exercise(int id, String titile, String description) {
-        this.id = id;
+    public Exercise(String titile, String description) {
         this.titile = titile;
         this.description = description;
+    }
+
+    public Exercise() {
+
     }
 
     public int getId() {
@@ -33,5 +36,14 @@ public class Exercise {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Override
+    public String toString() {
+        return "Exercise{" +
+                "id=" + id +
+                ", titile='" + titile + '\'' +
+                ", description='" + description + '\'' +
+                '}';
     }
 }
