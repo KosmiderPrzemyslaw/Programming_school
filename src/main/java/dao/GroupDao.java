@@ -50,4 +50,17 @@ public class GroupDao {
         }
         return null;
     }
+
+    public void update(Group group) {
+        try {
+            Connection connection = new DBConnection().getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement
+                    ("UPDATE Programming_school.user_group SET name = ? where id = ?");
+            preparedStatement.setString(1, group.getName());
+            preparedStatement.setInt(2, group.getId());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

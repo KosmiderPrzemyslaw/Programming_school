@@ -35,10 +35,15 @@ public class Main {
         }
 
         GroupDao groupDao = new GroupDao();
+//
+//        Group group = new Group("bratki");
+//        groupDao.create(group);
+//
+//        System.out.println(groupDao.read(2));
 
-        Group group = new Group("bratki");
-        groupDao.create(group);
+        Group group = groupDao.read(2);
 
-        System.out.println(groupDao.read(2));
+        group.setName("leonki");
+        groupDao.update(group);
     }
 }
