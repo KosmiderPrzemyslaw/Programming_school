@@ -2,8 +2,11 @@ package dao;
 
 import DBConnection.DBConnection;
 import models.Solution;
+import models.User;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SolutionDao {
     public Solution create(Solution solution) {
@@ -77,11 +80,69 @@ public class SolutionDao {
             Connection connection = new DBConnection().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement
                     ("DELETE Programming_school.solution FROM Programming_school.solution where id = ?");
-           preparedStatement.setInt(1, solutionId);
+            preparedStatement.setInt(1, solutionId);
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public List<Solution> findAll() {
+        try {
+            List<Solution> solutions = new ArrayList<>();
+            Connection connection = new DBConnection().getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement
+                    ("SELECT * FROM Programming_school.solution");
+            return getSolutions(preparedStatement, solutions);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public List<Solution> findAllByUserId(int userId) {
+        try {
+            Connection connection = new DBConnection().getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement
+                    ("SELECT * FROM Programming_school.solution WHERE user_id = ?");
+            preparedStatement.setInt(1, userId);
+            List<Solution> solutionList = new ArrayList<>();
+            return getSolutions(preparedStatement, solutionList);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public List<Solution> findAllByExerciseId(int exerciseId) {
+        try {
+            Connection connection = new DBConnection().getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement
+                    ("SELECT * FROM Programming_school.solution where exercise_id = ?");
+            preparedStatement.setInt(1, exerciseId);
+            List<Solution> solutionList = new ArrayList<>();
+            return getSolutions(preparedStatement, solutionList);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private List<Solution> getSolutions(PreparedStatement preparedStatement, List<Solution> solutionList) throws SQLException {
+        ResultSet resultSet = preparedStatement.executeQuery();
+
+        while (resultSet.next()) {
+            Solution solution = new Solution();
+            solution.setId(resultSet.getInt("id"));
+            solution.setUserId(resultSet.getInt("user_id"));
+            solution.setExerciseId(resultSet.getInt("exercise_id"));
+            solution.setCreated(resultSet.getTimestamp("created"));
+            solution.setUpdated(resultSet.getTimestamp("updated"));
+            solution.setDescription(resultSet.getString("description"));
+            solutionList.add(solution);
+        }
+        return solutionList;
     }
 }

@@ -112,5 +112,28 @@ public class Main {
 
         solutionDao.update(solution);
         solutionDao.delete(6);
+        List<Solution> solutionList = solutionDao.findAll();
+
+        System.out.println("FIND ALL: ");
+        for (Solution solutionFromList: solutionList
+             ) {
+            System.out.println(solutionFromList);
+        }
+
+        List<Solution> allByUserId = solutionDao.findAllByUserId(10);
+
+        System.out.println("FIND ALL BY USER ID: ");
+        for (Solution user3solutions: allByUserId
+             ) {
+            System.out.println(user3solutions);
+        }
+
+        List<Solution> allByExerciseId = solutionDao.findAllByExerciseId(16);
+
+        System.out.println("FIND ALL BY EXERCISE ID");
+        for (Solution s:allByExerciseId
+             ) {
+            System.out.println(s);
+        }
     }
 }
