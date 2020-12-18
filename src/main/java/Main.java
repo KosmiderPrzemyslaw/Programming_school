@@ -128,12 +128,19 @@ public class Main {
             System.out.println(user3solutions);
         }
 
-        List<Solution> allByExerciseId = solutionDao.findAllByExerciseId(16);
+        List<Solution> allByExerciseId = solutionDao.findAllByExerciseId(3);
 
         System.out.println("FIND ALL BY EXERCISE ID");
         for (Solution s:allByExerciseId
              ) {
             System.out.println(s);
+        }
+
+        List<User> userList = userDao.findAllByGroupId(2);
+
+        for (User user: userList
+             ) {
+            System.out.println(user);
         }
     }
 }

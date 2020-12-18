@@ -119,7 +119,7 @@ public class SolutionDao {
         try {
             Connection connection = new DBConnection().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement
-                    ("SELECT * FROM Programming_school.solution where exercise_id = ?");
+                    ("SELECT * FROM Programming_school.solution where exercise_id = ? ORDER BY created desc");
             preparedStatement.setInt(1, exerciseId);
             List<Solution> solutionList = new ArrayList<>();
             return getSolutions(preparedStatement, solutionList);

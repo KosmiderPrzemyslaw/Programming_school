@@ -91,18 +91,38 @@ public class UserDao {
             Connection connection = new DBConnection().getConnection();
             List<User> userList = new ArrayList<>();
             PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL_USERS_QUERY);
-            ResultSet resultSet = preparedStatement.executeQuery();
 
-            while (resultSet.next()) {
-                User user = new User();
-                user.setId(resultSet.getInt("user_id"));
-                user.setUserName(resultSet.getString("userName"));
-                user.setEmail(resultSet.getString("email"));
-                user.setPassword(resultSet.getString("password"));
-                user.setGruopId(resultSet.getInt("user_group"));
-                userList.add(user);
-            }
-            return userList;
+            return getUserList(userList, preparedStatement);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private List<User> getUserList(List<User> userList, PreparedStatement preparedStatement) throws SQLException {
+        ResultSet resultSet = preparedStatement.executeQuery();
+
+        while (resultSet.next()) {
+            User user = new User();
+            user.setId(resultSet.getInt("user_id"));
+            user.setUserName(resultSet.getString("userName"));
+            user.setEmail(resultSet.getString("email"));
+            user.setPassword(resultSet.getString("password"));
+            user.setGruopId(resultSet.getInt("user_group"));
+            userList.add(user);
+        }
+        return userList;
+    }
+
+    public List<User> findAllByGroupId(int groupId) {
+        try {
+            Connection connection = new DBConnection().getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM Programming_school.users where user_group = ?");
+            preparedStatement.setInt(1, groupId);
+            List<User> userList = new ArrayList<>();
+
+            return getUserList(userList, preparedStatement);
 
         } catch (SQLException e) {
             e.printStackTrace();
