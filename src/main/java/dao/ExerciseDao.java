@@ -2,6 +2,7 @@ package dao;
 
 import DBConnection.DBConnection;
 import models.Exercise;
+import sun.security.pkcs11.Secmod;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -94,6 +95,26 @@ public class ExerciseDao {
                 exercises.add(exercise);
             }
             return exercises;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public Exercise findById(int exerciseID) {
+        try {
+            Connection connection = new DBConnection().getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement
+                    ("SELECT * where Programming_school.exercise.id = ?");
+            preparedStatement.setInt(1, exerciseID);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                Exercise exercise = new Exercise();
+                exercise.setTitle(resultSet.getString("title"));
+                exercise.setDescription(resultSet.getString("description"));
+                return exercise;
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
