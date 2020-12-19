@@ -105,12 +105,13 @@ public class ExerciseDao {
         try {
             Connection connection = new DBConnection().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement
-                    ("SELECT * where Programming_school.exercise.id = ?");
+                    ("SELECT * FROM Programming_school.exercise where Programming_school.exercise.id = ?");
             preparedStatement.setInt(1, exerciseID);
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
                 Exercise exercise = new Exercise();
+                exercise.setId(resultSet.getInt("id"));
                 exercise.setTitle(resultSet.getString("title"));
                 exercise.setDescription(resultSet.getString("description"));
                 return exercise;

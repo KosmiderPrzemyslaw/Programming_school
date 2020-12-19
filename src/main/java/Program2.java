@@ -16,27 +16,95 @@ public class Program2 {
                     break;
                 }
 
-                case "edit":{
-                    ExerciseDao exerciseDao = new ExerciseDao();
-                    Scanner scanner = new Scanner(System.in);
-                    System.out.println("Type id exercise to update: ");
-                    while (!scanner.hasNextInt()){
-                        System.out.println("Incorrect value type integer");
-                        scanner.next();
-                    }
-                    int exerciseIdToEdit = scanner.nextInt();
-                    exerciseDao.
-
+                case "edit": {
+                    editExercise();
+                    break;
                 }
 
-                case "quit" :{
+                case "delete": {
+                    deleteExerciseFromDb();
+                    break;
+                }
+                case "quit": {
                     System.out.println("Bye!");
                     return;
                 }
             }
-
         }
+    }
 
+    private static void deleteExerciseFromDb() {
+        System.out.println("Type exercise id to remove: ");
+        Scanner scanner = new Scanner(System.in);
+        while (!scanner.hasNextInt()) {
+            System.out.println("Incorrect value. Type integer!");
+            scanner.next();
+        }
+        int idToRemove = scanner.nextInt();
+
+        ExerciseDao exerciseDao = new ExerciseDao();
+        Exercise exerciseByIdInDb = exerciseDao.findById(idToRemove);
+        if (exerciseByIdInDb != null) {
+            exerciseDao.delete(idToRemove);
+        } else {
+            try {
+                System.out.println("There is no such id in the database");
+                Thread.sleep(1500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private static void editExercise() {
+        ExerciseDao exerciseDao = new ExerciseDao();
+
+        int exerciseIdToEdit = getExerciseIdToEdit();
+
+        Exercise exerciseDaoById = exerciseDao.findById(exerciseIdToEdit);
+
+
+        if (exerciseDaoById != null) {
+            Scanner scanner1 = new Scanner(System.in);
+            System.out.println("Type new exercise title: ");
+            String titleToUpdate = scanner1.next();
+            exerciseDaoById.setTitle(titleToUpdate);
+
+            Scanner scanner2 = new Scanner(System.in);
+            System.out.println("Type new description: ");
+            String descriptionToUpdate = scanner2.next();
+            exerciseDaoById.setDescription(descriptionToUpdate);
+
+//                        Scanner scanner3 = new Scanner(System.in);
+//                        System.out.println("Type new id: ");
+//                        while (!scanner3.hasNextInt()) {
+//                            System.out.println("Incorrect value!");
+//                            scanner3.next();
+//                        }
+
+//                        exerciseDaoById.setId(scanner3.nextInt());
+//                        exerciseDaoById.setId(exerciseDaoById.getId());
+            exerciseDao.update(exerciseDaoById);
+
+        } else {
+            try {
+                System.out.println("There is no such id in the database");
+                Thread.sleep(1500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private static int getExerciseIdToEdit() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Type id exercise to update: ");
+
+        while (!scanner.hasNextInt()) {
+            System.out.println("Incorrect value type integer");
+            scanner.next();
+        }
+        return scanner.nextInt();
     }
 
     private static void addNewExercise() {
@@ -44,7 +112,7 @@ public class Program2 {
         System.out.println("Type exercise title: ");
         String title = scanner.nextLine();
 
-        Scanner scanner1= new Scanner(System.in);
+        Scanner scanner1 = new Scanner(System.in);
         System.out.println("Type exercise description: ");
         String description = scanner1.nextLine();
 
