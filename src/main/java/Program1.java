@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class AdministrationPanel {
+public class Program1 {
     public static void main(String[] args) {
         printMenu();
     }
@@ -86,27 +86,23 @@ public class AdministrationPanel {
         User findUserById = userDao.findUserById(userIdToEdit);
 
         String updatedEmail = newUserEmail();
-        //findUserById.setEmail(updatedEmail);
+        findUserById.setEmail(updatedEmail);
 
         System.out.println("Type new password: ");
         Scanner scanner2 = new Scanner(System.in);
         String updatedPassword = scanner2.next();
-        //findUserById.setPassword(updatedPassword);
+        findUserById.setPassword(updatedPassword);
 
 
         System.out.println("Type new username: ");
         Scanner scanner3 = new Scanner(System.in);
         String updatedUsername = scanner3.next();
-        //findUserById.setUserName(updatedUsername);
+        findUserById.setUserName(updatedUsername);
 
         System.out.println("Type new user group id: ");
         Scanner scanner4 = new Scanner(System.in);
         int updatedGroupId = checkIdGroupInputFromKeyboard(scanner4);
-        //findUserById.setGruopId(updatedGroupId);
-
-
-        User userToUpdate = new User(updatedUsername, updatedEmail, updatedPassword, updatedGroupId);
-
+        findUserById.setGruopId(updatedGroupId);
 
         userDao.update(findUserById);
     }
@@ -116,9 +112,7 @@ public class AdministrationPanel {
         System.out.println("Type new user email: ");
         Scanner scanner1 = new Scanner(System.in);
         String mail = scanner1.next();
-        String checkedEmail = checkEmailInDb(mail);
-
-        return checkedEmail;
+        return checkEmailInDb(mail);
     }
 
     private static String chooseOperation() {
