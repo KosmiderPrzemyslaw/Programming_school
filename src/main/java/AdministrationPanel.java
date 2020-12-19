@@ -9,6 +9,10 @@ import java.util.Scanner;
 
 public class AdministrationPanel {
     public static void main(String[] args) {
+        printMenu();
+    }
+
+    private static void printMenu() {
         while (true) {
             printAllUsers();
             String choice = chooseOperation();
@@ -16,21 +20,24 @@ public class AdministrationPanel {
             switch (choice.toLowerCase()) {
                 case "add": {
                     addUserToDb();
+                    break;
                 }
 
                 case "edit": {
                     editUser();
+                    break;
 
                 }
 
                 case "delete": {
                     deleteUserById();
+                    break;
                 }
 
                 case "quit": {
                     System.out.println("bye!");
+                    return;
                 }
-                return;
             }
         }
     }
@@ -105,7 +112,7 @@ public class AdministrationPanel {
     }
 
     private static String chooseOperation() {
-        System.out.println("Choose one of the option: ");
+        System.out.println("SELECT OPERATION AND TYPE BELOW MENU: ");
         System.out.println("add");
         System.out.println("edit");
         System.out.println("delete");
@@ -181,7 +188,7 @@ public class AdministrationPanel {
     private static void printAllUsers() {
         UserDao userDao = new UserDao();
         List<User> userList = userDao.findAll();
-
+        System.out.println("--------------------ALL USERS FROM DATABASE-----------------");
         for (User user : userList
         ) {
             System.out.println(user);
