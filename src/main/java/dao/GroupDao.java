@@ -96,4 +96,24 @@ public class GroupDao {
         }
         return null;
     }
+
+    public Group findByGroupId(int groupId) {
+        try {
+            Connection connection = new DBConnection().getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement
+                    ("SELECT * FROM Programming_school.user_group WHERE id = ?");
+            preparedStatement.setInt(1, groupId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                Group group = new Group();
+                group.setId(resultSet.getInt("id"));
+                group.setName(resultSet.getString("name"));
+                return group;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
