@@ -7,62 +7,79 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class Task1 {
+public class AdministrationPanel {
     public static void main(String[] args) {
-        printAllUsers();
-        String choice = chooseOperation();
+        while (true) {
+            printAllUsers();
+            String choice = chooseOperation();
 
-        switch (choice.toLowerCase()) {
-            case "add": {
-                addUserToDb();
+            switch (choice.toLowerCase()) {
+                case "add": {
+                    addUserToDb();
+                }
+
+                case "edit": {
+                    editUser();
+
+                }
+
+                case "delete": {
+                    deleteUserById();
+                }
+
+                case "quit": {
+                    System.out.println("bye!");
+                }
+                return;
             }
-
-            case "edit": {
-                editUser();
-
-            }
-
-            case "delete": {
-                deleteUserById();
-            }
-
-            case "quit": {
-                System.out.println("bye!");
-            }
-            return;
         }
     }
 
     private static void deleteUserById() {
         UserDao userDao = new UserDao();
-        Scanner scanner = getUserIdToRemove("Type user id to remove: ");
-        int idToRemove = scanner.nextInt();
-        User userById = userDao.findUserById(idToRemove);
-        while (userById == null) {
-            System.out.println("Incorrect user id");
-            getUserIdToRemove("Type user id once again: ");
 
-        }
+        int idToRemove = getUserIdToRemove();
         userDao.delete(idToRemove);
     }
 
-    private static Scanner getUserIdToRemove(String s) {
-        System.out.println(s);
+
+    private static int getUserIdToRemove() {
+        UserDao userDao = new UserDao();
+        System.out.println("Type user id: ");
         Scanner scanner = new Scanner(System.in);
         while (!scanner.hasNextInt()) {
             System.out.println("Incorrect value");
+            System.out.println("Type once again integer");
             scanner.next();
         }
-        return scanner;
+        int userId = scanner.nextInt();
+
+        userId = checkUserIdInDb(userDao, userId);
+        return userId;
+    }
+
+    private static int checkUserIdInDb(UserDao userDao, int userId) {
+        try {
+            User userById = userDao.findUserById(userId);
+            int idToCheck = userById.getId();
+            while (idToCheck == 0) {
+                System.out.println("There is no such user in the database");
+                idToCheck = getUserIdToRemove();
+            }
+
+        } catch (NullPointerException e) {
+            System.out.println("there is no such user");
+            userId = getUserIdToRemove();
+        }
+        return userId;
     }
 
     private static void editUser() {
         UserDao userDao = new UserDao();
         GroupDao groupDao = new GroupDao();
 
-        Scanner scanner = getUserIdToRemove("Type user id: ");
 
-        int idFromKeyboard = scanner.nextInt();
+        int idFromKeyboard = getUserIdToRemove();
         User userById = userDao.findUserById(idFromKeyboard);
 
         System.out.println("Type new user email: ");

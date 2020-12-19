@@ -17,7 +17,7 @@ public class ExerciseDao {
             PreparedStatement preparedStatement = connection.prepareStatement
                     ("INSERT INTO Programming_school.exercise(title, description) VALUES (?,?)",
                             PreparedStatement.RETURN_GENERATED_KEYS);
-            preparedStatement.setString(1, exercise.getTitile());
+            preparedStatement.setString(1, exercise.getTitle());
             preparedStatement.setString(2, exercise.getDescription());
             preparedStatement.executeUpdate();
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
@@ -44,7 +44,7 @@ public class ExerciseDao {
                 Exercise exercise = new Exercise();
                 exercise.setId(resultSet.getInt("id"));
                 exercise.setDescription(resultSet.getString("description"));
-                exercise.setTitile(resultSet.getString("title"));
+                exercise.setTitle(resultSet.getString("title"));
                 return exercise;
             }
         } catch (SQLException e) {
@@ -58,7 +58,7 @@ public class ExerciseDao {
             Connection connection = new DBConnection().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement
                     ("UPDATE Programming_school.exercise SET title = ?, description = ? WHERE id = ?");
-            preparedStatement.setString(1, exercise.getTitile());
+            preparedStatement.setString(1, exercise.getTitle());
             preparedStatement.setString(2, exercise.getDescription());
             preparedStatement.setInt(3, exercise.getId());
             preparedStatement.executeUpdate();
@@ -89,7 +89,7 @@ public class ExerciseDao {
             while (resultSet.next()) {
                 Exercise exercise = new Exercise();
                 exercise.setId(resultSet.getInt("id"));
-                exercise.setTitile(resultSet.getString("title"));
+                exercise.setTitle(resultSet.getString("title"));
                 exercise.setDescription(resultSet.getString("description"));
                 exercises.add(exercise);
             }

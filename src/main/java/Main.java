@@ -8,9 +8,7 @@ import models.Solution;
 import models.User;
 
 import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.Month;
 import java.util.Date;
 import java.util.List;
 
@@ -71,7 +69,7 @@ public class Main {
 
         System.out.println(exerciseDao.read(2));
 
-        exercise.setTitile("some different titile");
+        exercise.setTitle("some different titile");
         exercise.setDescription("some different desc");
         exercise.setId(2);
         exerciseDao.update(exercise);

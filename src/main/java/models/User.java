@@ -9,12 +9,11 @@ public class User {
     private String password;
     private int groupId;
 
-    public User(int id, String userName, String email, String password, int gruopId) {
-        this.id = id;
+    public User(String userName, String email, String password, int groupId) {
         this.userName = userName;
         this.email = email;
-        this.password = password;
-        this.groupId = gruopId;
+        this.hashPassword(password);
+        this.groupId = groupId;
     }
 
     public int getGruopId() {
@@ -25,7 +24,7 @@ public class User {
         this.groupId = gruopId;
     }
 
-    private void hashPassword(String password) {
+    public void hashPassword(String password) {
         this.password = BCrypt.hashpw(password, BCrypt.gensalt());
 
     }

@@ -2,11 +2,11 @@ package models;
 
 public class Exercise {
     private int id;
-    private String titile;
+    private String title;
     private String description;
 
-    public Exercise(String titile, String description) {
-        this.titile = titile;
+    public Exercise(String title, String description) {
+        this.title = title;
         this.description = description;
     }
 
@@ -22,12 +22,12 @@ public class Exercise {
         this.id = id;
     }
 
-    public String getTitile() {
-        return titile;
+    public String getTitle() {
+        return title;
     }
 
-    public void setTitile(String titile) {
-        this.titile = titile;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getDescription() {
@@ -42,7 +42,7 @@ public class Exercise {
     public String toString() {
         return "Exercise{" +
                 "id=" + id +
-                ", titile='" + titile + '\'' +
+                ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 '}';
     }
