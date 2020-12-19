@@ -22,22 +22,19 @@ public class AdministrationPanel {
                     addUserToDb();
                     break;
                 }
-
                 case "edit": {
                     editUser();
                     break;
-
                 }
-
                 case "delete": {
                     deleteUserById();
                     break;
                 }
-
                 case "quit": {
                     System.out.println("bye!");
                     return;
                 }
+
             }
         }
     }
@@ -45,14 +42,13 @@ public class AdministrationPanel {
     private static void deleteUserById() {
         UserDao userDao = new UserDao();
 
-        int idToRemove = getUserIdToRemove();
+        int idToRemove = getUserId();
         userDao.delete(idToRemove);
     }
 
 
-    private static int getUserIdToRemove() {
-        UserDao userDao = new UserDao();
-        System.out.println("Type user id: ");
+    private static int getUserId() {
+        System.out.println("Type user ID: ");
         Scanner scanner = new Scanner(System.in);
         while (!scanner.hasNextInt()) {
             System.out.println("Incorrect value");
@@ -61,58 +57,72 @@ public class AdministrationPanel {
         }
         int userId = scanner.nextInt();
 
-        userId = checkUserIdInDb(userDao, userId);
+        userId = checkUserIdInDb(userId);
         return userId;
     }
 
-    private static int checkUserIdInDb(UserDao userDao, int userId) {
+    private static int checkUserIdInDb(int userId) {
         try {
+            UserDao userDao = new UserDao();
             User userById = userDao.findUserById(userId);
             int idToCheck = userById.getId();
             while (idToCheck == 0) {
                 System.out.println("There is no such user in the database");
-                idToCheck = getUserIdToRemove();
+                idToCheck = getUserId();
             }
 
         } catch (NullPointerException e) {
             System.out.println("there is no such user");
-            userId = getUserIdToRemove();
+            userId = getUserId();
         }
         return userId;
     }
 
     private static void editUser() {
         UserDao userDao = new UserDao();
-        GroupDao groupDao = new GroupDao();
 
 
-        int idFromKeyboard = getUserIdToRemove();
-        User userById = userDao.findUserById(idFromKeyboard);
+        int userIdToEdit = getUserId();
+        User findUserById = userDao.findUserById(userIdToEdit);
+
+        String updatedEmail = newUserEmail();
+        //findUserById.setEmail(updatedEmail);
+
+        System.out.println("Type new password: ");
+        Scanner scanner2 = new Scanner(System.in);
+        String updatedPassword = scanner2.next();
+        //findUserById.setPassword(updatedPassword);
+
+
+        System.out.println("Type new username: ");
+        Scanner scanner3 = new Scanner(System.in);
+        String updatedUsername = scanner3.next();
+        //findUserById.setUserName(updatedUsername);
+
+        System.out.println("Type new user group id: ");
+        Scanner scanner4 = new Scanner(System.in);
+        int updatedGroupId = checkIdGroupInputFromKeyboard(scanner4);
+        //findUserById.setGruopId(updatedGroupId);
+
+
+        User userToUpdate = new User(updatedUsername, updatedEmail, updatedPassword, updatedGroupId);
+
+
+        userDao.update(findUserById);
+    }
+
+    private static String newUserEmail() {
 
         System.out.println("Type new user email: ");
         Scanner scanner1 = new Scanner(System.in);
         String mail = scanner1.next();
-        checkEmailInDb(userById, userDao, scanner1, mail);
-        userDao.update(userById);
+        String checkedEmail = checkEmailInDb(mail);
 
-        System.out.println("Type new password: ");
-        Scanner scanner2 = new Scanner(System.in);
-        userById.setPassword(scanner2.next());
-        userDao.update(userById);
-
-        System.out.println("Type new username: ");
-        Scanner scanner3 = new Scanner(System.in);
-        userById.setUserName(scanner3.next());
-        userDao.update(userById);
-
-        System.out.println("Type new user group id: ");
-        Scanner scanner4 = new Scanner(System.in);
-        checkIdGroupInputFromKeyboard(userById, groupDao, scanner4);
-        userDao.update(userById);
+        return checkedEmail;
     }
 
     private static String chooseOperation() {
-        System.out.println("SELECT OPERATION AND TYPE BELOW MENU: ");
+        System.out.println("SELECT OPERATION FROM MENU: ");
         System.out.println("add");
         System.out.println("edit");
         System.out.println("delete");
@@ -125,33 +135,35 @@ public class AdministrationPanel {
     }
 
     private static void addUserToDb() {
-        User user = new User();
         UserDao userDao = new UserDao();
-        GroupDao groupDao = new GroupDao();
 
         System.out.println("Type email: ");
         Scanner scanner = new Scanner(System.in);
         String mail = scanner.next();
+        String checkedEmail = checkEmailInDb(mail);
 
-        checkEmailInDb(user, userDao, scanner, mail);
 
         System.out.println("Type user name: ");
-        Scanner userName = new Scanner(System.in);
-        user.setUserName(userName.next());
+        Scanner scanner2 = new Scanner(System.in);
+        String userName = scanner2.next();
+
 
         System.out.println("Type password: ");
-        Scanner password = new Scanner(System.in);
-        user.setPassword(password.next());
+        Scanner scanner1 = new Scanner(System.in);
+        String password = scanner1.next();
+
 
         System.out.println("Type group ID: ");
         Scanner userGroup = new Scanner(System.in);
-        checkIdGroupInputFromKeyboard(user, groupDao, userGroup);
+        int checkedGroupId = checkIdGroupInputFromKeyboard(userGroup);
 
-
+        User user = new User(userName, checkedEmail, password, checkedGroupId);
         userDao.create(user);
     }
 
-    private static void checkIdGroupInputFromKeyboard(User user, GroupDao groupDao, Scanner userGroup) {
+    private static int checkIdGroupInputFromKeyboard(Scanner userGroup) {
+
+        GroupDao groupDao = new GroupDao();
         while (!userGroup.hasNextInt()) {
             System.out.println("Incorrect value!");
             userGroup.next();
@@ -169,20 +181,22 @@ public class AdministrationPanel {
             System.out.println("Type once again correct value: ");
             idFromKeyboard = userGroup.nextInt();
         }
-        user.setGruopId(idFromKeyboard);
+        return idFromKeyboard;
     }
 
-    private static void checkEmailInDb(User user, UserDao userDao, Scanner scanner, String mail) {
+    private static String checkEmailInDb(String mail) {
+        UserDao userDao = new UserDao();
         List<User> userList = userDao.findAll();
+        String mailToReturn = null;
         for (User u : userList
         ) {
-            while (u.getEmail().equals(mail)) {
-                System.out.println("Unfortunately this email address is already taken");
-                System.out.println("Type new email address!");
-                mail = scanner.next();
-            }
-            user.setEmail(mail);
+            if (u.getEmail().equals(mail)) {
+                System.out.println("This email address is already taken! Program will close in few sec");
+                System.exit(1);
+            } else
+                mailToReturn = mail;
         }
+        return mailToReturn;
     }
 
     private static void printAllUsers() {

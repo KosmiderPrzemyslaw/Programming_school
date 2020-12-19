@@ -24,7 +24,7 @@ public class User {
         this.groupId = gruopId;
     }
 
-    public void hashPassword(String password) {
+    private void hashPassword(String password) {
         this.password = BCrypt.hashpw(password, BCrypt.gensalt());
 
     }
