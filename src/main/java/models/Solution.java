@@ -1,6 +1,11 @@
 package models;
 
+import java.sql.Date;
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+import static java.time.LocalDateTime.now;
 
 public class Solution {
     private int id;
@@ -49,7 +54,7 @@ public class Solution {
 
 
     public Timestamp getCreated() {
-        return created;
+        return Timestamp.valueOf(LocalDateTime.now());
     }
 
     public void setCreated(Timestamp created) {

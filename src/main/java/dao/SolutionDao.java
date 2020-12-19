@@ -5,6 +5,7 @@ import models.Solution;
 import models.User;
 
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +34,19 @@ public class SolutionDao {
         }
         return null;
     }
-
+    public List<Solution> findAllSolutionsByUserId(int userId) {
+        try {
+            List<Solution> solutions = new ArrayList<>();
+            Connection connection = new DBConnection().getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement
+                    ("SELECT * FROM Programming_school.solution where user_id = ?");
+            preparedStatement.setInt(1, userId);
+            return getSolutions(preparedStatement, solutions);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
     public Solution read(int solutionId) {
         try {
             Connection connection = new DBConnection().getConnection();
@@ -66,7 +79,7 @@ public class SolutionDao {
             preparedStatement.setInt(1, solution.getUserId());
             preparedStatement.setInt(2, solution.getExerciseId());
             preparedStatement.setTimestamp(3, solution.getCreated());
-            preparedStatement.setTimestamp(4, solution.getUpdated());
+            preparedStatement.setTimestamp(4, Timestamp.valueOf(LocalDateTime.now()));
             preparedStatement.setString(5, solution.getDescription());
             preparedStatement.setInt(6, solution.getId());
             preparedStatement.executeUpdate();
