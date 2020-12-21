@@ -121,4 +121,28 @@ public class ExerciseDao {
         }
         return null;
     }
+
+    public List<Exercise> findAllNotResolved(int userId) {
+        try {
+            Connection connection = new DBConnection().getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement
+    //                ("SELECT * FROM Programming_school.exercise e LEFT JOIN Programming_school.solution s on e.id = s.exercise_id WHERE user_id = ?");
+                    ("SELECT * FROM Programming_school.exercise e  RIGHT JOIN  Programming_school.solution s on e.id = s.exercise_id WHERE user_id != ?");
+            preparedStatement.setInt(1, userId);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            List<Exercise> exercises = new ArrayList<>();
+            while (resultSet.next()){
+                Exercise exercise = new Exercise();
+                exercise.setId(resultSet.getInt("id"));
+                exercise.setTitle(resultSet.getString("title"));
+                exercise.setDescription(resultSet.getString("description"));
+                exercises.add(exercise);
+            }
+            return exercises;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
