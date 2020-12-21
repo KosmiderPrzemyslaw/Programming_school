@@ -74,16 +74,6 @@ public class Program2 {
             System.out.println("Type new description: ");
             String descriptionToUpdate = scanner2.next();
             exerciseDaoById.setDescription(descriptionToUpdate);
-
-//                        Scanner scanner3 = new Scanner(System.in);
-//                        System.out.println("Type new id: ");
-//                        while (!scanner3.hasNextInt()) {
-//                            System.out.println("Incorrect value!");
-//                            scanner3.next();
-//                        }
-
-//                        exerciseDaoById.setId(scanner3.nextInt());
-//                        exerciseDaoById.setId(exerciseDaoById.getId());
             exerciseDao.update(exerciseDaoById);
 
         } else {

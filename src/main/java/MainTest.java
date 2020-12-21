@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
-public class Main {
+public class MainTest {
     public static void main(String[] args) {
         //User user = new User("Kamil", "Kamil@email.pl",
         //        "password");

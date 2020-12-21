@@ -2,7 +2,6 @@ package dao;
 
 import DBConnection.DBConnection;
 import models.Exercise;
-import sun.security.pkcs11.Secmod;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -122,12 +121,12 @@ public class ExerciseDao {
         return null;
     }
 
-    public List<Exercise> findAllNotResolved(int userId) {
+    public List<Exercise> findAllResolved(int userId) {
         try {
             Connection connection = new DBConnection().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement
     //                ("SELECT * FROM Programming_school.exercise e LEFT JOIN Programming_school.solution s on e.id = s.exercise_id WHERE user_id = ?");
-                    ("SELECT * FROM Programming_school.exercise e  RIGHT JOIN  Programming_school.solution s on e.id = s.exercise_id WHERE user_id != ?");
+                    ("SELECT * FROM Programming_school.exercise e  RIGHT JOIN  Programming_school.solution s on e.id = s.exercise_id WHERE user_id = ?");
             preparedStatement.setInt(1, userId);
 
             ResultSet resultSet = preparedStatement.executeQuery();

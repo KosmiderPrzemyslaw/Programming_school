@@ -20,8 +20,8 @@ public class User {
         return groupId;
     }
 
-    public void setGruopId(int gruopId) {
-        this.groupId = gruopId;
+    public void setGruopId(int groupId) {
+        this.groupId = groupId;
     }
 
     private void hashPassword(String password) {
